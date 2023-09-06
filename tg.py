@@ -15,5 +15,9 @@ CHAT_IDS = ['459471362', '301180295']
 
 
 def send_message(message):
-    for chat_id in CHAT_IDS:
-        bot.send_message(chat_id=chat_id, text=message)
+    try:
+        for chat_id in CHAT_IDS:
+            bot.send_message(chat_id=chat_id, text=message)
+    except Exception:
+        pass
+    
