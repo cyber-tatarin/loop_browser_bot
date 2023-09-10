@@ -11,13 +11,13 @@ API_TOKEN = os.getenv('TG_API_TOKEN')
 bot = telebot.TeleBot(token=API_TOKEN)
 
 # Replace 'CHAT_ID' with the chat ID of the user, group, or channel you want to send the message to
-CHAT_IDS = ['459471362', '301180295']
+CHAT_IDS = ['459471362', '962646747']
 
 
 def send_message(message):
-    try:
-        for chat_id in CHAT_IDS:
+    for chat_id in CHAT_IDS:
+        try:
             bot.send_message(chat_id=chat_id, text=message)
-    except Exception:
-        pass
+        except Exception:
+            pass
     

@@ -45,7 +45,8 @@ def insert_list_of_iphone_links(list_of_lists_of_item_rows, iphone_model):
         #     row_number = index
         #     cell_address = f"A{row_number}"  # Column B, row specified by row_number
         #     worksheet.update_value(cell_address, link)
-
+        
+        worksheet.clear()
         worksheet.insert_rows(row=2, values=list_of_lists_of_item_rows)
     
     except Exception as x:
