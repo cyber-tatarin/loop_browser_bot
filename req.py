@@ -264,6 +264,7 @@ def start_kufar_conversation(new_items_rows_):
 
 if __name__ == '__main__':
     for iphone_model_name in itertools.cycle(iphone_models):
+        tg.send_message_to_admin(f'go for {iphone_model_name}')
         list_of_saved_items = gsheets.get_list_of_iphone_links(iphone_model_name)
         list_of_lists_of_new_request_items = get_item_rows(iphone_model_name)
         # list_of_new_items = [x[2] for x in list_of_lists_of_new_request_items]

@@ -20,4 +20,11 @@ def send_message(message):
             bot.send_message(chat_id=chat_id, text=message)
         except Exception:
             pass
+
+
+def send_message_to_admin(message):
+    try:
+        bot.send_message(chat_id=CHAT_IDS[0], text=message)
+    except Exception:
+        pass
     
