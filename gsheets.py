@@ -24,12 +24,6 @@ def find_row_number(ad_link, worksheet):
         print(x)
 
 
-iphone_model_worksheet_index = {
-    'xr': 2,
-    '11': 3
-}
-
-
 def insert_list_of_iphone_links(list_of_lists_of_item_rows, iphone_model):
     try:
         # Authenticate using service account credentials
@@ -39,8 +33,12 @@ def insert_list_of_iphone_links(list_of_lists_of_item_rows, iphone_model):
         # Open the Google Sheet by name
         sheet = gc.open('Loop browser bot — iphones db')
         # Select the first worksheet in the Google Sheet
-        worksheet = sheet[iphone_model_worksheet_index[iphone_model]]
-    
+        try:
+            worksheet = sheet.worksheet_by_title(iphone_model)
+        except pygsheets.exceptions.WorksheetNotFound:
+            sheet.add_worksheet(iphone_model)
+            worksheet = sheet.worksheet_by_title(iphone_model)
+        
         # for index, link in enumerate(list_of_lists_of_item_rows, 1):
         #     row_number = index
         #     cell_address = f"A{row_number}"  # Column B, row specified by row_number
@@ -61,7 +59,7 @@ def get_list_of_iphone_links(iphone_model):
     # Open the Google Sheet by name
     sheet = gc.open('Loop browser bot — iphones db')
     # Select the first worksheet in the Google Sheet
-    worksheet = sheet[iphone_model_worksheet_index[iphone_model]]
+    worksheet = sheet.worksheet_by_title(iphone_model)
     
     column_values = worksheet.get_col(3)
 
@@ -79,7 +77,7 @@ def initialize_conversation(title, price, ad_link, conv_id):
     # Open the Google Sheet by name
     sheet = gc.open('Loop browser bot — iphones db')
     # Select the first worksheet in the Google Sheet
-    worksheet = sheet[1]
+    worksheet = sheet.worksheet_by_title('Dialogs')
     print('inside')
     if find_row_number(ad_link, worksheet) is None:
         print('inside if')
@@ -109,7 +107,7 @@ def got_answer(ad_link, preview, time_received_str):
     # Open the Google Sheet by name
     sheet = gc.open('Loop browser bot — iphones db')
     # Select the first worksheet in the Google Sheet
-    worksheet = sheet[1]
+    worksheet = sheet.worksheet_by_title('Dialogs')
     
     row_number = find_row_number(ad_link, worksheet)
     
@@ -129,7 +127,47 @@ def got_answer(ad_link, preview, time_received_str):
         worksheet.update_value((row_number, status_col_index), 'Получен ответ')
 
 
-if __name__ == '__main__':
-    initialize_conversation('edvbwrbw  wvwvgfqwe', 4, 'https://www.kufar.by/account/messaging/8e8', 563463463)
-    got_answer(5, 'ff', '2023-08-30T11:49:03Z')
+def get_model_memory_price_list():
+    # Authenticate using service account credentials
+    gc = pygsheets.authorize(service_file=key_json)
+    # Convert the list of links into a single column
     
+    # Open the Google Sheet by name
+    sheet = gc.open('Loop browser bot — iphones db')
+    # Select the first worksheet in the Google Sheet
+    worksheet = sheet.worksheet_by_title('All_models')
+    
+    all_values = worksheet.get_values(start='A2', end=None, include_empty=False)
+    
+    # Extract the first three columns
+    first_three_columns = [row[:3] for row in all_values]
+    return first_three_columns
+
+
+def get_ad_links_with_empty_answer():
+    # Authenticate using service account credentials
+    gc = pygsheets.authorize(service_file=key_json)
+    # Convert the list of links into a single column
+    
+    # Open the Google Sheet by name
+    sheet = gc.open('Loop browser bot — iphones db')
+    # Select the first worksheet in the Google Sheet
+    worksheet = sheet.worksheet_by_title('Dialogs')
+    
+    all_values = worksheet.get_values(start='A2', end=None, include_empty=False)
+    
+    ad_links_with_empty_answers = list()
+    
+    for row in all_values:
+        if row[4] == '':
+            ad_links_with_empty_answers.append(row[6])
+    
+    return ad_links_with_empty_answers
+
+
+if __name__ == '__main__':
+    # initialize_conversation('edvbwrbw  wvwvgfqwe', 4, 'https://www.kufar.by/account/messaging/8e8', 563463463)
+    # got_answer(5, 'ff', '2023-08-30T11:49:03Z')
+    #
+    # print(get_list_of_iphone_links('xr'))
+    get_links_with_empty_answer()
