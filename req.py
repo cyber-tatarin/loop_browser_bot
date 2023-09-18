@@ -255,7 +255,7 @@ def start_kufar_conversation(new_items_rows_):
             
         try:
             tg.send_message_to_admin(f'{item_price[:-3]} <= {item_max_price}')
-            if int(item_price[:-3]) <= int(item_max_price):
+            if int(item_price[:-3].replace(' ', '')) <= int(item_max_price):
                 start_message = (f"{random.choice(greeting_options)}{random.choice(symbols)} "
                                      f"{random.choice(interesting_offer_options)}{random.choice(symbols)} "
                                      f"{random.choice(how_to_reach_options)}? {random.choice(where_to_see_options)}?")
