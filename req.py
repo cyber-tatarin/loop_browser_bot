@@ -307,33 +307,37 @@ def go(model_):
 
 if __name__ == '__main__':
     while True:
-        tg.send_message_to_admin('very beggining')
-        model_memory_price_dict = dict()
-        threads = list()
-        model_memory_price_list = gsheets.get_model_memory_price_list()
-        
-        for model_memory_price in model_memory_price_list:
-            model_for_price = model_memory_price[0]
-            memory_for_price = model_memory_price[1]
-            price_for_price = model_memory_price[2]
+        try:
+            tg.send_message_to_admin('very beggining')
+            model_memory_price_dict = dict()
+            threads = list()
+            model_memory_price_list = gsheets.get_model_memory_price_list()
             
-            model_memory_price_dict[f'{model_for_price}_{memory_for_price}'] = price_for_price
-        
-        tg.send_message_to_admin('model_price list created')
-        print(model_memory_price_dict)
-        
-        unique_models = set([x[0] for x in model_memory_price_list])
-        for global_item_model in unique_models:
-            tg.send_message_to_admin(f'go for {global_item_model}')
-            go_thread = threading.Thread(target=go, args=(global_item_model,))
-            threads.append(go_thread)
-            go_thread.start()
-        
-        for thread in threads:
-            thread.join()
-            tg.send_message_to_admin('threads are gathered')
+            for model_memory_price in model_memory_price_list:
+                model_for_price = model_memory_price[0]
+                memory_for_price = model_memory_price[1]
+                price_for_price = model_memory_price[2]
+                
+                model_memory_price_dict[f'{model_for_price}_{memory_for_price}'] = price_for_price
             
-        time.sleep(20)
+            tg.send_message_to_admin('model_price list created')
+            print(model_memory_price_dict)
+            
+            unique_models = set([x[0] for x in model_memory_price_list])
+            for global_item_model in unique_models:
+                tg.send_message_to_admin(f'go for {global_item_model}')
+                go_thread = threading.Thread(target=go, args=(global_item_model,))
+                threads.append(go_thread)
+                go_thread.start()
+            
+            for thread in threads:
+                thread.join()
+                tg.send_message_to_admin('threads are gathered')
+                
+            time.sleep(20)
+        except Exception as x:
+            print(x)
+            
 
 # gsheets.get_list_of_iphone_links()
 # get_item_ids()

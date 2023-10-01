@@ -166,8 +166,9 @@ def get_ad_links_with_empty_answer():
 
 
 if __name__ == '__main__':
+    pass
     # initialize_conversation('edvbwrbw  wvwvgfqwe', 4, 'https://www.kufar.by/account/messaging/8e8', 563463463)
     # got_answer(5, 'ff', '2023-08-30T11:49:03Z')
     #
     # print(get_list_of_iphone_links('xr'))
-    get_links_with_empty_answer()
+    # get_links_with_empty_answer()
