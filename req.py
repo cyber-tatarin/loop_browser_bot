@@ -7,6 +7,7 @@ import concurrent.futures
 import pygsheets.exceptions
 from dotenv import load_dotenv, find_dotenv
 import random
+from logger import logger
 
 import requests
 from bs4 import BeautifulSoup
@@ -336,7 +337,7 @@ if __name__ == '__main__':
                 
             time.sleep(20)
         except Exception as x:
-            print(x)
+            logger.exception(x)
             
 
 # gsheets.get_list_of_iphone_links()
