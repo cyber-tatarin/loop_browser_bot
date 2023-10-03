@@ -277,7 +277,6 @@ def go(model_):
         list_of_saved_items = []
         
     list_of_lists_of_new_request_items = get_item_rows(model_)
-    tg.send_message_to_admin('got everything from gsheets')
     # list_of_new_items = [x[2] for x in list_of_lists_of_new_request_items]
     
     new_items_rows = [item_row for item_row in list_of_lists_of_new_request_items if
@@ -286,30 +285,22 @@ def go(model_):
     new_items_rows_str = list()
     for new_item_row in new_items_rows:
         new_items_rows_str.append('--'.join(new_item_row))
-        
-    tg.send_message_to_admin('\n\n'.join(new_items_rows_str))
     
     if new_items_rows:
         item_rows_thread = threading.Thread(target=start_kufar_conversation, args=(new_items_rows,))
         item_rows_thread.start()
         # executor.submit(start_kufar_conversation, new_items_rows)
-
-    tg.send_message_to_admin('after start conversation')
     
     gsheets.insert_list_of_iphone_links(list_of_lists_of_new_request_items, model_)
-    
-    tg.send_message_to_admin('after inserting new links to gsheets')
     
     # check_messages_thread = threading.Thread(target=check_messages)
     # check_messages_thread.start()
 
-    tg.send_message_to_admin('after checking messages')
 
 
 if __name__ == '__main__':
     while True:
         try:
-            tg.send_message_to_admin('very beggining')
             model_memory_price_dict = dict()
             threads = list()
             model_memory_price_list = gsheets.get_model_memory_price_list()
@@ -321,7 +312,6 @@ if __name__ == '__main__':
                 
                 model_memory_price_dict[f'{model_for_price}_{memory_for_price}'] = price_for_price
             
-            tg.send_message_to_admin('model_price list created')
             print(model_memory_price_dict)
             
             unique_models = set([x[0] for x in model_memory_price_list])
