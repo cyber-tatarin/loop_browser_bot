@@ -326,18 +326,17 @@ if __name__ == '__main__':
             
             unique_models = set([x[0] for x in model_memory_price_list])
             for global_item_model in unique_models:
-                tg.send_message_to_admin(f'go for {global_item_model}')
                 go_thread = threading.Thread(target=go, args=(global_item_model,))
                 threads.append(go_thread)
                 go_thread.start()
             
             for thread in threads:
                 thread.join()
-                tg.send_message_to_admin('threads are gathered')
                 
             time.sleep(20)
         except Exception as x:
             logger.exception(x)
+            tg.send_message_to_admin(str(x))
             
 
 # gsheets.get_list_of_iphone_links()
